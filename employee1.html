@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #505257;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .company-logo img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile img {
+            width: 50px;
+            height: auto;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .profile-info {
+            text-align: right;
+            margin-left: 10px;
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+
+        .task-list {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .task-list h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .task-item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-item p {
+            margin: 0;
+        }
+
+        .task-item button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .task-item button:hover {
+            background-color: #45a049;
+        }
+
+        .performance-section {
+            margin-top: 40px;
+        }
+
+        .performance-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            width: 45%;
+            margin-bottom: 30px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-logo">
+                
+            </div>
+            <div class="profile">
+                <div class="profile-info">
+                    <p>employee1</p>
+                    <p>Role: Team employee</p>
+              
+        </div>
+
+        <h1>Leader Dashboard</h1>
+
+        <!-- Task List Section -->
+        <div class="task-list">
+            <h2>Assigned Tasks</h2>
+            <div id="taskContainer"></div>
+        </div>
+
+        <!-- Performance Section -->
+        <div class="performance-section">
+            <h2>Team Performance</h2>
+            <div class="chart-container">
+                <div class="chart-box">
+                    <canvas id="leaderPerformanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Fetch tasks for Leader 1 from local storage
+        const leaderTasks = JSON.parse(localStorage.getItem('leader1Tasks')) || [];
+
+        // Leader Dashboard Script
+function renderTasks() {
+    const taskContainer = document.getElementById('taskContainer');
+    taskContainer.innerHTML = ''; // Clear previous tasks
+
+    leaderTasks.forEach((task, index) => {
+        const taskItem = document.createElement('div');
+        taskItem.className = 'task-item';
+        taskItem.innerHTML = `
+            <p><strong>${task.name}</strong> - Due: ${task.dueDate}</p>
+            <button onclick="markAsComplete(${index})">${task.completed ? 'Completed' : 'Mark as Complete'}</button>
+        `;
+        taskContainer.appendChild(taskItem);
+    });
+}
+
+function updatePerformance() {
+    const tasksCompleted = leaderTasks.filter(task => task.completed).length;
+    const tasksAssigned = leaderTasks.length;
+
+    // Update the chart
+    const ctx = document.getElementById('leaderPerformanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Tasks Assigned', 'Tasks Completed'],
+            datasets: [{
+                label: 'Team Performance',
+                data: [tasksAssigned, tasksCompleted],
+                backgroundColor: ['#6e8efb', '#45a049'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+}
+
+
+        // Initialize page
+        window.onload = function() {
+            renderTasks();
+            updatePerformance();
+        };
+    </script>
+</body>
+</html>

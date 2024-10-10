@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee & Admin Login</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f6f8f8, #f1f3f2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box {
+            text-align: center;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo h1 {
+            margin: 10px 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #555;
+            background: #f9f9f9;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #a777e3;
+            box-shadow: 0 0 5px rgba(167, 119, 227, 0.4);
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #6e8efb;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group button:hover {
+            background-color: #a777e3;
+        }
+
+        .forgot-password {
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            font-size: 12px;
+            color: #6e8efb;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+               
+                <!-- <h1>Company Name</h1> -->
+            </div>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+                <div class="input-group"> 
+                    <label for="role">Login as:</label>
+                    <select id="role" name="role" required>
+                        <option value="admin">Admin</option>
+                        <option value="employee">Employee</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit">Login</button>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <div class="error-message" id="errorMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            // Get form values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            // Admin login check
+            if (role === 'admin' && username === 'chetan' && password === 'admin2005') {
+                window.location.href = 'admindashboard.html';
+            }
+            // Employee login check
+            else if (role === 'employee') {
+                if (username === 'employee1' && password === 'employee1') {
+                    window.location.href = 'employee1.html';
+                } else if (username === 'employee2' && password === 'employee2') {
+                    window.location.href = 'employee2.html';
+               
+                } else {
+                    showError('Invalid username or password for employee.');
+                }
+            } else {
+                showError('Invalid admin username or password.');
+            }
+        });
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+        }
+    </script>
+</body>
+</html>

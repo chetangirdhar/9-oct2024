@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #5a5d64;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #4a4a4a;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #6e8efb;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .company-logo img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile img {
+            width: 50px;
+            height: auto;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .profile-info {
+            text-align: right;
+            margin-left: 10px;
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: #333;
+        }
+
+        .team-list {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .team {
+            background-color: #6e8efb;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team:hover {
+            background-color: #a777e3;
+            transform: translateY(-5px);
+        }
+
+        .team-details {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .team-details.active {
+            display: block;
+        }
+
+        .team-details h2 {
+            text-align: center;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .team-leader {
+            font-weight: bold;
+            color: #6e8efb;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .performance-section {
+            margin-bottom: 40px;
+        }
+
+        .performance-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-box h3 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .calendar-section {
+            margin-top: 40px;
+        }
+
+        .calendar-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #calendar td {
+            width: 14.28%;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            position: relative;
+        }
+
+        #calendar .leave {
+            background-color: #fbc4c4;
+        }
+
+        #calendar .paid-leave {
+            background-color: #c4fbc4;
+        }
+
+        #calendar .non-paid-leave {
+            background-color: #fce9b3;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            width: 45%;
+            margin-bottom: 30px;
+        }
+
+        /* Task Assignment Section */
+        .task-assignment {
+            margin-top: 40px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px; /* Move above performance section */
+        }
+
+        .task-assignment h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .task-assignment select,
+        .task-assignment input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .task-assignment button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .task-assignment button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-logo">
+               
+            </div>
+            <div class="profile">
+                <div class="profile-info">
+                    <p>chetan</p>
+                    <p>Role: Admin</p>
+                    
+                </div>
+               
+        </div>
+
+        <h1>Admin Dashboard</h1>
+
+        <!-- Task Assignment Section -->
+        <div class="task-assignment">
+            <h2>Task Assignment</h2>
+            <label for="teamLeader">Assign Task to Team employee:</label>
+            <select id="teamLeader">
+                <option value="employee1">employee1</option>
+                <option value="employee2">employee2</option>
+                
+            </select>
+
+            <label for="taskName">Task Name:</label>
+            <input type="text" id="taskName" placeholder="Enter task name">
+
+            <label for="dueDate">Due Date:</label>
+            <input type="date" id="dueDate">
+
+            <button onclick="assignTask()">Assign Task</button>
+        </div>
+
+        <!-- Team Section -->
+        <div class="team-list">
+            <div class="team" onclick="showTeamDetails('team1')">Team Alpha</div>
+            <div class="team" onclick="showTeamDetails('team2')">Team Beta</div>
+            <div class="team" onclick="showTeamDetails('team3')">Team Gamma</div>
+            
+        </div>
+
+        <!-- Team Details Section -->
+        <div id="team1-details" class="team-details">
+            <h2>Team Alpha</h2>
+            <p>employee: <span class="team-employee">employee 1</span></p>
+            <ul>
+                <li>Member 1</li>
+                <li>Member 2</li>
+             
+            </ul>
+        </div>
+
+        <div id="team2-details" class="team-details">
+            <h2>Team Beta</h2>
+            <p>employee: <span class="team-employee">employee 2</span></p>
+            <ul>
+                <li>Member 1</li>
+                <li>Member 2</li>
+              
+            </ul>
+        </div>
+
+        <div id="team3-details" class="team-details">
+            <h2>Team Gamma</h2>
+            <p>employee: <span class="team-employee">employee 3</span></p>
+            <ul>
+                <li>Member 1</li>
+                <li>Member 2</li>
+             
+            </ul>
+        </div>
+
+       
+
+        <!-- Performance Section -->
+        <div class="performance-section">
+            <h2>Team Performance</h2>
+            <div class="performance-stats">
+                <div class="stat-box">
+                    <h3>Tasks Assigned</h3>
+                    <p id="tasks-assigned">0</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Tasks Completed</h3>
+                    <p id="tasks-completed">0</p>
+                </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="chart-container">
+                <div class="chart-box">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <h2>Leave Calendar</h2>
+            <table id="calendar">
+                <!-- Calendar will be generated dynamically -->
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        function renderCalendar() {
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = ''; // Clear previous content
+
+            let header = '<tr>';
+            for (let i = 1; i <= daysInMonth; i++) {
+                header += `<td>${i}</td>`;
+            }
+            header += '</tr>';
+
+            let body = '<tr>';
+            for (let i = 1; i <= daysInMonth; i++) {
+                body += `<td onclick="toggleLeave(this, ${i})" data-day="${i}"></td>`;
+            }
+            body += '</tr>';
+
+            calendar.innerHTML = header + body;
+        }
+
+        const leaveData = {};
+
+        function toggleLeave(cell, day) {
+    const leaveTypes = ['leave', 'paid-leave', 'non-paid-leave', 'none'];
+    let currentClass = Array.from(cell.classList).find(c => leaveTypes.includes(c));
+
+    // Alert to choose leave type
+    const userChoice = prompt("Select leave type:\n1. Sick Leave\n2. Paid Leave\n3. Unpaid Leave\n4. Remove Leave\nEnter 1, 2, 3, or 4:");
+
+    switch (userChoice) {
+        case '1':
+            cell.classList.remove('paid-leave', 'non-paid-leave');
+            cell.classList.add('leave');
+            break;
+        case '2':
+            cell.classList.remove('leave', 'non-paid-leave');
+            cell.classList.add('paid-leave');
+            break;
+        case '3':
+            cell.classList.remove('leave', 'paid-leave');
+            cell.classList.add('non-paid-leave');
+            break;
+        case '4':
+            cell.classList.remove('leave', 'paid-leave', 'non-paid-leave');
+            break;
+        default:
+            alert("Invalid choice! Please enter 1, 2, 3, or 4.");
+    }
+}
+
+        // Team Details Logic
+        function showTeamDetails(teamId) {
+            const teams = document.querySelectorAll('.team-details');
+            teams.forEach(team => team.classList.remove('active'));
+
+            const selectedTeam = document.getElementById(teamId + '-details');
+            if (selectedTeam) {
+                selectedTeam.classList.add('active');
+            }
+        }
+
+        // Task Assignment Logic
+// Admin Dashboard Script
+function assignTask() {
+    const teamLeader = document.getElementById('teamemployee').value;
+    const taskName = document.getElementById('taskName').value;
+    const dueDate = document.getElementById('dueDate').value;
+
+    if (!taskName || !dueDate) {
+        alert("Please provide task name and due date.");
+        return;
+    }
+
+    // Retrieve tasks for the selected leader from local storage
+    let employeeTasks = JSON.parse(localStorage.getItem(`${teamemployee}Tasks`)) || [];
+
+    // Add new task to the leader's tasks
+    employeeTasks.push({
+        name: taskName,
+        dueDate: dueDate,
+        completed: false
+    });
+
+    // Update localStorage
+    localStorage.setItem(`${teamemployee}Tasks`, JSON.stringify(employeeTasks));
+
+    // Reset form
+    document.getElementById('taskName').value = '';
+    document.getElementById('dueDate').value = '';
+
+    // Update the performance chart (optional)
+    updateAdminPerformance();
+}
+
+function updateAdminPerformance() {
+    // Collect all tasks from all leaders
+    let totalTasksAssigned = 0;
+    let totalTasksCompleted = 0;
+
+    ['employee1', 'employee2'].forEach(employee => {
+        const employeeTasks = JSON.parse(localStorage.getItem(`${employee}Tasks`)) || [];
+        totalTasksAssigned += employeeTasks.length;
+        totalTasksCompleted += employeeTasks.filter(task => task.completed).length;
+    });
+
+    document.getElementById('tasks-assigned').innerText = totalTasksAssigned;
+    document.getElementById('tasks-completed').innerText = totalTasksCompleted;
+
+    // Update performance chart
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Tasks Assigned', 'Tasks Completed'],
+            datasets: [{
+                label: 'Overall Performance',
+                data: [totalTasksAssigned, totalTasksCompleted],
+                backgroundColor: ['#6e8efb', '#45a049'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+}
+
+
+        // Initialize Page
+        window.onload = function() {
+            updatePerformance();
+        };
+    </script>
+</body>
+</html>
